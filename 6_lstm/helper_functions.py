@@ -36,8 +36,8 @@ valid_size = 1000
 valid_text = text[:valid_size]
 train_text = text[valid_size:]
 train_size = len(train_text)
-print(train_size, train_text[:64])
-print(valid_size, valid_text[:64])
+#print(train_size, "train_text[:64]", train_text[:64])
+#print(valid_size, "valid_text[:64]", valid_text[:64])
 
 vocabulary_size = len(string.ascii_lowercase) + 1 # [a-z] + ' '
 first_letter = ord(string.ascii_lowercase[0])
@@ -101,9 +101,6 @@ def batches2string(batches):
     s = [''.join(x) for x in zip(s, characters(b))]
   return s
 
-train_batches = BatchGenerator(train_text, batch_size, num_unrollings)
-valid_batches = BatchGenerator(valid_text, 1, 1)
-
 def logprob(predictions, labels):
   """Log-probability of the true labels in a predicted batch."""
   predictions[predictions < 1e-10] = 1e-10
@@ -133,3 +130,21 @@ def random_distribution():
   """Generate a random column of probabilities."""
   b = np.random.uniform(0.0, 1.0, size=[1, vocabulary_size])
   return b/np.sum(b, 1)[:,None]
+
+
+train_batches = BatchGenerator(train_text, batch_size, num_unrollings)
+valid_batches = BatchGenerator(valid_text, 1, 1)
+
+print ("train_text: ",train_text[:64])
+print ("train_batches no. 1")
+print(batches2string(train_batches.next())[:3])
+print ("train_text: ",train_text[:64])
+print ("train_batches no. 2")
+print(batches2string(train_batches.next())[:3])
+print ("train_text: ",train_text[:64])
+print ("train_batches no. 3")
+print(batches2string(train_batches.next())[:3])
+print ("train_text: ",train_text[:64])
+print ("train_batches no. 4")
+print(batches2string(train_batches.next())[:4])
+
